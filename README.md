@@ -1,64 +1,187 @@
-# simple-calculator.txt# Simple Calculator with Tkinter GUI
+"""
+This is a simple calculator with basic arithmetic
+operations. Prompts users to input two numbers
+and an operation choice. Perform the calculation,
+before displaying the result
+"""
 
-Welcome to the Simple Calculator with Tkinter GUI repository! This Python program creates a basic calculator application with a graphical user interface using the Tkinter library. It allows users to perform simple arithmetic operations.
+# import tkinter module
+from tkinter import *
 
-![Calculator Screenshot](calculator_screenshot.png)
+# configure the tkinter
+# components
+app = Tk()
+app.title("Simple Calculator by Charles Lughas")
+app.iconbitmap()
+# app.geometry("300x300")
+# change the color of gui background
+app.config(background="#54AB80")
 
-## Table of Contents
+app.resizable(True, True)
 
-1. [Description](#description)
-2. [Getting Started](#getting-started)
-3. [Usage](#usage)
-4. [Features](#features)
-5. [Contributing](#contributing)
-6. [License](#license)
 
-## Description
+# colors pallette
+# background=#54AB80
+# buttons=#AB8054
+# operations=#8054AB
 
-This Python program creates a simple calculator with a graphical user interface (GUI) using the Tkinter library. The calculator supports basic arithmetic operations such as addition, subtraction, multiplication, and division. Users can enter numbers and perform calculations by clicking the corresponding buttons on the GUI.
+# globally declare the expression variable
+#expression = ""
 
-## Getting Started
 
-To get started with this calculator, follow these steps:
+# functions
+##########
+def click(num):
+    """
+    function to get the numbers clicked
+    and displayed to the screen
+    """
+    # get the entry value
+    exp = entry_field.get()
+    # remove entry number
+    entry_field.delete(0, END)
 
-1. Clone this repository to your local machine:
+    # concatenate entry number as string
+    entry_field.insert(0, str(exp) + str(num))
 
-   ```bash
-   git clone https://github.com/your-username/simple_calculator.git
-   ```
-2. Navigate to the folder:
-   `cd simple_calculator`
-3. Run the calculator application:
-   `python calculator.py`
 
-## Usage
-* Enter numbers by clicking the number buttons (0-9).
-* Perform arithmetic operations by clicking the operation buttons (+, -, x, /).
-* Click the "=" button to calculate the result.
-* Click the "Clear" button to clear the input field.
-* The result will be displayed in the input field.
+def add_button():
+    """function to add two or more integers"""
+    # get value entered
+    first_num = entry_field.get()
+    global expression
+    global operation
+    operation = "add"
+    expression = int(first_num)
+    entry_field.delete(0, END)
 
-## Features
-* User-friendly graphical user interface (GUI).
-* Supports addition, subtraction, multiplication, and division.
-* Easy-to-use buttons for numeric input and operations.
-* Clear button to reset the input field.
-* Calculates and displays results accurately.
 
-## Contributing
-Contributions to this repository are welcome! If you have suggestions for improvements, bug fixes, or new features, please feel free to fork the repository and submit a pull request. We appreciate your contributions.
+def subtract_button():
+    """function to subtract two or more integers"""
+    # get value entered
+    first_num = entry_field.get()
+    global expression
+    global operation
+    operation = "subtract"
+    expression = int(first_num)
+    entry_field.delete(0, END)
 
-## License
-This repository and its contents are licensed under the MIT License. You are free to use, modify, and distribute this code for personal or commercial purposes.
 
-## Acknowledgments
-Thanks to the [Python](https://python.org) and [Tkinter](https://docs.python.org/3/library/tkinter.html) communities for their excellent documentation and resources. Also a sincere appreciation goes to @CODSOFT for the internship opportunity given to me that brought about this project.
+def multiply_button():
+    """function to multiply two or more integers"""
+    # get value entered
+    first_num = entry_field.get()
+    # create global variable
+    global expression
+    global operation
+    operation = "multiply"
+    expression = int(first_num)
+    entry_field.delete(0, END)
 
-## Resources
-- [Python](https://python.org)
-- [Tkinter](https://docs.python.org/3/library/tkinter.html)
-- [Geeksforgeeks Tutorial](https://www.geeksforgeeks.org/python-gui-tkinter/)
-- [Codemy](https://youtube.com/codemy)
+def divide_button():
+    """function to divide integers"""
+    # get value entered
+    first_num = entry_field.get()
+    # create global variable
+    global expression
+    global operation
+    operation = "divide"
+    expression = int(first_num)
+    entry_field.delete(0, END)
 
-# Author
-[Charles Lughas](https://github.com/lordlughas)
+def clear():
+    """function to clear entry field"""
+    entry_field.delete(0, END)
+
+def equal_button():
+    """function to equate the values using an operation"""
+    # get the second number on display
+    second_num = entry_field.get()
+
+    # clear the entry field 
+    entry_field.delete(0, END)
+
+    # condition statement to determine
+    # operation to use for calculator
+    if operation == "add":
+        entry_field.insert(0, expression + int(second_num))
+
+    elif operation == "subtract":
+        entry_field.insert(0, expression - int(second_num))
+
+    elif operation == "multiply":
+        entry_field.insert(0, expression * int(second_num))
+
+    elif operation == "divide":
+        result = expression / int(second_num)
+        if (expression % int(second_num) == 0):
+            entry_field.insert(0, int(result))
+        else:
+            entry_field.insert(0, result)
+        #entry_field.insert(0, expression // int(second_num))
+
+    else:
+        entry_field.insert("error")
+
+# create entry for input & output
+entry_field = Entry(app,
+                width=35,
+                justify="right",
+                borderwidth=5,
+                # font=("helvetica", 20,"bold")
+            )
+# make the entry field into grid
+# giving it a columnspan to address for
+# other columns in the other rows
+entry_field.grid(row=0, column=0, columnspan=3, ipadx=10, pady=10)
+
+
+# create buttons for each numbers between 0-9
+button_1 = Button(app, borderwidth=3, text="1", height=1, width=7, padx=20, pady=10, command=lambda:click(1))
+button_2 = Button(app, borderwidth=3, text="2", height=1, width=7, padx=20, pady=10, command=lambda:click(2))
+button_3 = Button(app, borderwidth=3, text="3", height=1, width=7, padx=20, pady=10, command=lambda:click(3))
+button_4 = Button(app, borderwidth=3, text="4", height=1, width=7, padx=20, pady=10, command=lambda:click(4))
+button_5 = Button(app, borderwidth=3, text="5", height=1, width=7, padx=20, pady=10, command=lambda:click(5))
+button_6 = Button(app, borderwidth=3, text="6", height=1, width=7, padx=20, pady=10, command=lambda:click(6))
+button_7 = Button(app, borderwidth=3, text="7", height=1, width=7, padx=20, pady=10, command=lambda:click(7))
+button_8 = Button(app, borderwidth=3, text="8", height=1, width=7, padx=20, pady=10, command=lambda:click(8))
+button_9 = Button(app, borderwidth=3, text="9", height=1, width=7, padx=20, pady=10, command=lambda:click(9))
+button_0 = Button(app, borderwidth=3, text="0", height=1, width=7, padx=20, pady=10, command=lambda:click(0))
+button_add = Button(app, borderwidth=3, text="+", height=1, width=7, padx=20, pady=10, command=add_button)
+button_subtract = Button(app, borderwidth=3, text="-", height=1, width=7, padx=20, pady=10, command=subtract_button)
+button_divide = Button(app, borderwidth=3, text="/", height=1, width=7, padx=20, pady=10, command=divide_button)
+button_multiply = Button(app, borderwidth=3, text="x", height=1, width=7, padx=20, pady=10, command=multiply_button)
+button_equal = Button(app, borderwidth=3, text="=", height=1, width=7, padx=70, pady=10, command=equal_button)
+button_clear = Button(app, borderwidth=3, text="clear", height=1, width=7, padx=70, pady=10, command=clear)
+
+
+# arrange the button in the screen
+# 3rd row buttons
+button_1.grid(row=3, column=0)
+button_2.grid(row=3, column=1)
+button_3.grid(row=3, column=2)
+
+# 2nd row buttons
+button_4.grid(row=2, column=0)
+button_5.grid(row=2, column=1)
+button_6.grid(row=2, column=2)
+
+# 1st row buttons
+button_7.grid(row=1, column=0)
+button_8.grid(row=1, column=1)
+button_9.grid(row=1, column=2)
+
+# 4th row buttons 
+button_0.grid(row=4, column=0)
+button_add.grid(row=4, column=1)
+button_subtract.grid(row=4, column=2)
+
+# 5th and 6th row buttons
+button_multiply.grid(row=5, column=0)
+button_divide.grid(row=6, column=0)
+button_equal.grid(row=5, column=1, columnspan=2)
+button_clear.grid(row=6, column=1, columnspan=2)
+
+
+# run the tkinter application
+app.mainloop()
